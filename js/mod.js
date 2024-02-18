@@ -3,7 +3,7 @@ let modInfo = {
 	id: "ItsResetTime",
 	author: "Thaness0",
 	pointsName: "points",
-	modFiles: ["row-0 layers.js", "row-1 layers.js", "tree.js"],
+	modFiles: ["row-0 layers.js", "row-1 layers.js", "row-2 layers.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",
@@ -22,9 +22,10 @@ let changelog = `<h1>Changelog:</h1><br>
 	- Added reset layer, along with its first 6 upgrades, 3 milestones, and 1 buyable.<br>
 	- Added ascension layer, along with its first 5 upgrades<br>
 	- Added prestige layer, along with its first 3 upgrades<br>
-	<h3>v0.1</h3><br>
-		- Added <br>
-		- Added <br>`
+	<h3>v0.1<br> New goals</h3><br>
+		- Added 3 upgrades and 3 milestones for resets and 3 upgrades for prestige<br>
+		- Added achievement tab and first 12 achievements<br>
+		- Added rebirth layer but it doesn't do anything yet. `
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
@@ -56,6 +57,8 @@ function getPointGen() {
 		if (hasUpgrade('r', 31)) gain = gain.times(upgradeEffect('r', 13).add(4)/5)
 		if (hasMilestone('r', 3)) gain = gain.times(5)
 		if (hasMilestone('r', 4)) gain = gain.times(3)
+		if (hasMilestone('r', 5)) gain = gain.times(5)
+		if (hasMilestone('r', 7)) gain = gain.times(2.5)
 	return gain
 }
 
@@ -71,7 +74,7 @@ var displayThings = [
 // Determines when the game "ends"
 function isEndgame() {
 	//return player.points.gte(new Decimal("e280000000"))
-	return hasUpgrade('p', 13)
+	return player['rb'].points.gte(1)
 }
 
 

@@ -30,6 +30,12 @@ addLayer("a", {
         return new Decimal(1)
     },
 
+    passiveGeneration() {
+        let generation = new Decimal(0)
+        if (hasUpgrade('p', 21)) generation = generation.add(0.01)
+        return generation
+    },
+
     layerShown() { return hasUpgrade('r', 23)},          // Returns a bool for if this layer's node should be visible in the tree.
 
     upgrades: {
@@ -50,7 +56,7 @@ addLayer("a", {
         },
         13: {
             title:"another reset component",
-            description: "unlock reset buyable 1", 
+            description: "unlock the first reset buyable 'reset button'", 
             cost: new Decimal(3),
             unlocked() { return (hasUpgrade('a', 12))},
         },
@@ -77,7 +83,7 @@ addLayer("a", {
     infoboxes: {
         lore: {
             title: "ascension",
-            body() { return "time to reset resets, or ascend i guess. at least ascenion is better than super-reset."  },
+            body() { return "time to reset resets, or ascend i guess. at least ascenion is a better name than super-reset."  },
         },
     },
 }),
@@ -102,11 +108,14 @@ addLayer("p", {
                                             // Also the amount required to unlock the layer.
 
     type: "normal",                         // Determines the formula used for calculating prestige currency.
-    exponent: 0.3,                          // "normal" prestige gain is (currency^exponent).
+    exponent: 0.3,                         // "normal" prestige gain is (currency^exponent).
 
-    gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
-        return new Decimal(1)               // Factor in any bonuses multiplying gain here.
-    },
+    gainMult() {
+        let mult = new Decimal(1)
+        if (hasUpgrade('r', 14)) mult = mult.times(upgradeEffect('a', 11).add(100)/100)
+        return mult
+    },                           // Returns your multiplier to your gain of the prestige resource.
+        
     gainExp() {                             // Returns the exponent to your gain of the prestige resource.
         return new Decimal(1)
     },
@@ -126,9 +135,27 @@ addLayer("p", {
             cost: new Decimal(2),
         },
         13: {
-            title:"stop wasting my time",
-            description: "will automatically buy reset buyable 1 once reset milestone 5 is achieved.",
+            title:"stop wasting my resets",
+            description: "reset buttons will no longer spend reset points",
             unlocked() { return hasUpgrade('p', 12)},
+            cost: new Decimal(8),
+        },
+        21: {
+            title:"too slow to be useful",
+            description: "gain 1% of ascendion points on reset",
+            unlocked() { return hasUpgrade('p', 13)},
+            cost: new Decimal(12),
+        },
+        22: {
+            title:"stop wasting my time",
+            description: "automatically buy reset buttons... if you have 'help me'",
+            unlocked() { return hasUpgrade('p', 13)},
+            cost: new Decimal(12),
+        },
+        23: {
+            title:"3 per row is too low",
+            description: "add a 4th upgrade to each row of reset upgrades",
+            unlocked() { return hasUpgrade('p', 21) & hasUpgrade('p', 22)},
             cost: new Decimal(8),
         },
     },
