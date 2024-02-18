@@ -1,9 +1,9 @@
 let modInfo = {
-	name: "The ??? Tree",
-	id: "mymod",
-	author: "nobody",
+	name: "The Reset Tree",
+	id: "ItsResetTime",
+	author: "Thaness0",
 	pointsName: "points",
-	modFiles: ["layers.js", "tree.js"],
+	modFiles: ["row-0 layers.js", "row-1 layers.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",
@@ -14,13 +14,17 @@ let modInfo = {
 // Set your version in num and name
 let VERSION = {
 	num: "0.0",
-	name: "Literally nothing",
+	name: "the basics of reseting",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.0</h3><br>
-		- Added things.<br>
-		- Added stuff.`
+	<h3>v0.0<br> The Basics of Reseting</h3><br>
+	- Added reset layer, along with its first 6 upgrades, 3 milestones, and 1 buyable.<br>
+	- Added ascension layer, along with its first 5 upgrades<br>
+	- Added prestige layer, along with its first 3 upgrades<br>
+	<h3>v0.1</h3><br>
+		- Added <br>
+		- Added <br>`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
@@ -41,8 +45,17 @@ function canGenPoints(){
 function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
-
 	let gain = new Decimal(1)
+		if (hasUpgrade('r', 11)) gain = gain.times(5)
+		if (hasUpgrade('r', 12)) gain = gain.times(2)
+		if (hasUpgrade('r', 13)) gain = gain.times(upgradeEffect('r', 13))
+		if (hasMilestone('r', 0)) gain = gain.times(3)
+		if (hasUpgrade('r', 23)) gain = gain.times(10)
+		if (hasUpgrade('a', 12)) gain = gain.times(upgradeEffect('a', 11).add(3)/4)
+		if (hasUpgrade('a', 13)) gain = gain.times(buyableEffect('r', 11))
+		if (hasUpgrade('r', 31)) gain = gain.times(upgradeEffect('r', 13).add(4)/5)
+		if (hasMilestone('r', 3)) gain = gain.times(5)
+		if (hasMilestone('r', 4)) gain = gain.times(3)
 	return gain
 }
 
@@ -52,11 +65,13 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
+ `<h4 style='margin-top:5px;opacity:0.5'> current endgame: obtaining 3rd prestige upgrade </h4>`
 ]
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("e280000000"))
+	//return player.points.gte(new Decimal("e280000000"))
+	return hasUpgrade('p', 13)
 }
 
 

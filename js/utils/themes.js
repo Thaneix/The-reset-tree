@@ -2,14 +2,14 @@
 var themes = ["default", "aqua"]
 
 var colors = {
-	default: {
-		1: "#ffffff",//Branch color 1
+	default: {// edited the default theme colours. aqua (as of v0.0) is completely unnessesary.
+		1: "#c8ffc8",//Branch color 1
 		2: "#bfbfbf",//Branch color 2
 		3: "#7f7f7f",//Branch color 3
-		color: "#dfdfdf",
-		points: "#ffffff",
-		locked: "#bf8f8f",
-		background: "#0f0f0f",
+		color: "#D0D0D0",
+		points: "#FFC8FF",
+		locked: "#8F8FBF",
+		background: "#2a2d2d",
 		background_tooltip: "rgba(0, 0, 0, 0.75)",
 	},
 	aqua: {
