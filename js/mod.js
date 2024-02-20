@@ -3,7 +3,7 @@ let modInfo = {
 	id: "ItsResetTime",
 	author: "Thaness0",
 	pointsName: "points",
-	modFiles: ["row-0 layers.js", "row-1 layers.js", "row-2 layers.js", "tree.js"],
+	modFiles: ["row-0 layers.js", "row-1 layers.js", "row-2 layers.js", "achievements.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",
@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0",
-	name: "the basics of reseting",
+	num: "0.2",
+	name: "Reset^3 part 1",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -25,7 +25,11 @@ let changelog = `<h1>Changelog:</h1><br>
 	<h3>v0.1<br> New goals</h3><br>
 		- Added 3 upgrades and 3 milestones for resets and 3 upgrades for prestige<br>
 		- Added achievement tab and first 12 achievements<br>
-		- Added rebirth layer but it doesn't do anything yet. `
+		- Added rebirth layer but it doesn't do anything yet.<br>
+		<h3>v0.2<br> Reset^3 part 1<br>
+		- Added 8 milestones and 5 upgrades for rebirth, along with 6 ascend upgrades.<br>
+		- Added styling to achievement tab along with 6 new achievements.<br> (styling makes it so achievements are sorted into sets; completing a set will change achievements to yellow)<br>
+		- Added transcendence layer, along with first milestone and challenge (challenge currently doesn't give a boost)`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
@@ -59,6 +63,10 @@ function getPointGen() {
 		if (hasMilestone('r', 4)) gain = gain.times(3)
 		if (hasMilestone('r', 5)) gain = gain.times(5)
 		if (hasMilestone('r', 7)) gain = gain.times(2.5)
+		if (hasUpgrade('a', 22)) gain = gain.times(upgradeEffect('a', 22))
+		if (hasMilestone('rb', 0)) gain = gain.times(player['rb'].points.add(1))
+		if (hasUpgrade('a', 23)) gain = gain.times(player['rb'].points.add(1).times(4))
+		if (hasUpgrade('rb', 11)) gain = gain.times(15)
 	return gain
 }
 
@@ -68,13 +76,13 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
- `<h4 style='margin-top:5px;opacity:0.5'> current endgame: obtaining 3rd prestige upgrade </h4>`
+ `<h4 style='margin-top:5px;opacity:0.5'> current endgame: transcend for the first time</h4>`
 ]
 
 // Determines when the game "ends"
 function isEndgame() {
 	//return player.points.gte(new Decimal("e280000000"))
-	return player['rb'].points.gte(1)
+	return player['t'].points.gte(1)
 }
 
 

@@ -1,17 +1,17 @@
 // ************ Themes ************
-var themes = ["default", "aqua"]
+var themes = ["default", "aqua", "soft"]
 
 var colors = {
-	default: {// edited the default theme colours. aqua (as of v0.0) is completely unnessesary.
-		1: "#c8ffc8",//Branch color 1
+	default: {
+		1: "#ffffff",//Branch color 1
 		2: "#bfbfbf",//Branch color 2
 		3: "#7f7f7f",//Branch color 3
-		color: "#D0D0D0",
-		points: "#FFC8FF",
-		locked: "#8F8FBF",
-		background: "#2a2d2d",
+		color: "#dfdfdf",
+		points: "#ffffff",
+		locked: "#bf8f8f",
+		background: "#0f0f0f",
 		background_tooltip: "rgba(0, 0, 0, 0.75)",
-	},
+	}, 
 	aqua: {
 		1: "#bfdfff",
 		2: "#8fa7bf",
@@ -21,6 +21,16 @@ var colors = {
 		locked: "#c4a7b3",
 		background: "#001f3f",
 		background_tooltip: "rgba(0, 15, 31, 0.75)",
+	},
+	"soft": {// edited the default theme colours. aqua (as of v0.0) is completely unnessesary.
+		1: "#c8ffc8",//Branch color 1
+		2: "#bfbfbf",//Branch color 2
+		3: "#7f7f7f",//Branch color 3
+		color: "#D0D0D0",
+		points: "#FFC8FF",
+		locked: "#8F8FBF",
+		background: "#2a2d2d",
+		background_tooltip: "rgba(0, 0, 0, 0.75)",
 	},
 }
 function changeTheme() {
@@ -38,13 +48,12 @@ function getThemeName() {
 
 function switchTheme() {
 	let index = themes.indexOf(options.theme)
-	if (options.theme === null || index >= themes.length-1 || index < 0) {
+	if (options.theme === null || index >= themes.length || index < 0) {
 		options.theme = themes[0];
 	}
 	else {
 		index ++;
 		options.theme = themes[index];
-		options.theme = themes[1];
 	}
 	changeTheme();
 	resizeCanvas();

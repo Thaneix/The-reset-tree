@@ -26,6 +26,9 @@ addLayer("r", {
         if (hasUpgrade('a', 11)) mult = mult.times(upgradeEffect('a', 11))
         if (hasMilestone('r', 2)) mult = mult.times(2)
         if (hasMilestone('r', 6)) mult = mult.times(3)
+        if (hasUpgrade('a', 24)) mult = mult.times((player['rb'].points.add(1)).times(1.5))
+        if (hasUpgrade('rb', 22)) mult = mult.times((upgradeEffect('a', 11).add(49))/50)
+        if (inChallenge('t', 11)) mult = mult.times(1/mult.times(100))
         return mult
     },
     gainExp() {                             // Returns the exponent to your gain of the prestige resource.
@@ -47,11 +50,12 @@ addLayer("r", {
             }
         }
     },  // stole from SomeKindofGamer's ether tree code, add activation later.
-   /* doReset(reset) {
-        let keep = []
-        if (layer[reset].row < 2)
-        if ( hasUpgrade('p', 31)) keep.push("milestones")
-    }, */ // cant find way to stop from keeping everything. add activation later.
+    doReset(reset) {
+        let keep = [];
+        if ( hasMilestone("rb", 0) ) keep.push("upgrades")
+        if ( hasMilestone("rb", 3) ) keep.push("milestones")
+        if ( layers[reset].row > this.row) layerDataReset("r", keep)
+    }, // cant find way to stop from keeping everything. add activation later.
 
     layerShown() { return true },          // Returns a bool for if this layer's node should be visible in the tree.
 
@@ -107,8 +111,11 @@ addLayer("r", {
             effectDescription: " x2.5 point gain",
             done() { return player['r'].points.gte(1e10) & (hasUpgrade(this.layer, 24)) },
             unlocked() { return (hasUpgrade(this.layer, 24))},
+            
         },
     },
+
+    milestonePopup() {return hasMilestone('rb', 0) == false},
 
     upgrades: {
             11: {
@@ -215,101 +222,7 @@ addLayer("r", {
     infoboxes: {
         lore: {
             title: "reset",
-            body() { return "clearly just waiting to reach [absurdly large number that might as well be nonsense] is not happening with half a point a second. so time to start the first of [however many layers there are] layers." },
-        },
-    },
-}),
-// achievements are going here since making a row-side layers seems like a waste of time
-addLayer("ach", {
-    startData() { return {                  // startData is a function that returns default data for a layer. 
-        unlocked: true,                     // You can add more variables here to add them to your layer.
-        points: new Decimal(0),             // "points" is the internal name for the main resource of the layer.
-    }},
-
-    color: "#FFFFFF",                       // The color for this layer, which affects many elements.
-    resource: "useless points",            // The name of this layer's main prestige resource.
-    symbol: "!",
-    row: 'side',                                 // The row this layer is on (0 is the first row).
-
-    baseResource: "points",                 // The name of the resource your prestige gain is based on.
-    baseAmount() { return player.points },  // A function to return the current amount of baseResource.
-
-    requires: new Decimal(0),              // The amount of the base needed to  gain 1 of the prestige currency.
-                                            // Also the amount required to unlock the layer.
-
-    type: "none",                         // Determines the formula used for calculating prestige currency.
-    exponent: 0.5,                          // "normal" prestige gain is (currency^exponent).
-
-    gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
-        return new Decimal(1)               // Factor in any bonuses multiplying gain here.
-    },
-    gainExp() {                             // Returns the exponent to your gain of the prestige resource.
-        return new Decimal(1)
-    },
-
-    layerShown() { return true },          // Returns a bool for if this layer's node should be visible in the tree.
-
-    achievements: {
-        11: {
-            name: "great, another generic prestige tree mod",
-            done() { return true},
-            tooltip: "you don't need to know how to get this one. it's free!",
-            // image: "dont have any yet but planned.idgaf"
-        },
-        12: {
-            name: "just a few resets",
-            done() { return hasMilestone("r", 1)},
-            tooltip: "get reset milestone 2 '100 resets'",
-        },
-        13: {
-            name: "reset-reset time!",
-            done() { return player['a'].points.gte(1)},
-            tooltip: "get 1 ascenion point",
-        },
-        14: {
-            name: "of course you can",
-            done() { return hasUpgrade("a", 14)},
-            tooltip: "get ascenion upgrade 'can i go back to resets?'",
-        },
-        15: {
-            name: "do you really need this many resets?",
-            done() { return hasMilestone("r", 4)},
-            tooltip: "get reset milestone 5 '1000000 resets'",
-        },
-        16: {
-            name: "reset-reset time! ...again",
-            done() { return player['p'].points.gte(1)},
-            tooltip: "get 1 prestige point",
-        },
-        21: {
-            name: "you definitely don't need this many resets",
-            done() { return player['r'].points.gte(100000000)},
-            tooltip: "get 100,000,000 reset points",
-        },
-        22: {
-            name: "the start of automation",
-            done() { return hasUpgrade("p", 21)},
-            tooltip: "get prestige upgrade 'too slow to be useful'",
-        },
-        23: {
-            name: "just a coincidence",
-            done() { return getBuyableAmount('r', 11) == 2024},
-            tooltip: "max out 'reset button' by buying 2024 of them",
-        },
-        24: {
-            name: "just kidding! you do need those resets",
-            done() { return hasUpgrade('p', 23)},
-            tooltip: "get prestige upgrade '3 per row is too low'",
-        },
-        25: {
-            name: "time for scientific notation",
-            done() { return hasMilestone('r', 7)},
-            tooltip: "get reset milestone 7 '1e10 resets'",
-        },
-        26: {
-            name: "time for reset-reset-resets?",
-            done() { return player['rb'].points.gte(1)},
-            tooltip: "get 1 rebirth point",
+            body() { return "clearly just waiting to reach [absurdly large number that might as well be nonsense] is not happening. so time to start the first of [however many layers there are] layers." },
         },
     },
 })
