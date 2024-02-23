@@ -23,9 +23,9 @@ var colors = {
 		background_tooltip: "rgba(0, 15, 31, 0.75)",
 	},
 	"soft": {// edited the default theme colours. aqua (as of v0.0) is completely unnessesary.
-		1: "#c8ffc8",//Branch color 1
-		2: "#bfbfbf",//Branch color 2
-		3: "#7f7f7f",//Branch color 3
+		1: "#a8ffa8",//Branch color 1
+		2: "#a8a8ff",//Branch color 2
+		3: "#ffa8a8",//Branch color 3
 		color: "#D0D0D0",
 		points: "#FFC8FF",
 		locked: "#8F8FBF",
